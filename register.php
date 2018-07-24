@@ -4,7 +4,7 @@ require_once 'config.php';
  
 // Define variables and initialize with empty values
 $username = $password = $confirm_password = "";
-$username_err = $password_err = $confirm_password_err = "";
+$username_err = $password_err = $confirm_password_err = $error = "";
 
 // Function to create the dynamic error message
 function errorMessage($input, $message) {
@@ -24,7 +24,7 @@ function errorMessage($input, $message) {
                               <span aria-hidden="true">&times;</span>
                             </button>
                          </div>';
-    } else {
+    } elseif ($input == 'confirm') {
         global $confirm_password_err;
         $confirm_password_err = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
                                     <strong>Error:</strong> ' . $message . '
@@ -32,6 +32,14 @@ function errorMessage($input, $message) {
                                       <span aria-hidden="true">&times;</span>
                                     </button>
                                  </div>';
+    } else {
+        global $error;
+        $error = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <strong>Error:</strong> ' . $message . '
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                 </div>';
     }
 }
  
@@ -62,15 +70,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     //$username_err = "This username is already taken.";
                     errorMessage('username', 'This username is already taken.');
                 } else{
+
                     $username = trim($_POST["username"]);
                 }
-            } else{
-                echo "Oops! Something went wrong. Please try again later.";
+            } else{ 
+                // echo "Oops! Something went wrong. Please try again later.";
+                errorMessage('error', 'Oops! Something went wrong. Please try again later1.');
+
             }
+
+            // Close statement
+            $stmt->close();
+        } else {
+            // echo "Oops! Something went wrong. Please try again later.";
+            errorMessage('error', 'Oops! Something went wrong. Please try again later2.');
         }
          
-        // Close statement
-        $stmt->close();
+        
     }
     
     // Validate password
@@ -96,7 +112,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     
     // Check input errors before inserting in database
-    if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
+    if(empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($error)){
         
         // Prepare an insert statement
         $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
@@ -114,7 +130,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 // Redirect to login page
                 header("location: login.php");
             } else{
-                echo "Something went wrong. Please try again later.";
+                // echo "Something went wrong. Please try again later.";
+                errorMessage('error', 'Oops! Something went wrong. Please try again later3.');
             }
         }
          
@@ -143,12 +160,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <!-- Favicon -->
     <link rel="icon" href="SQicon.ico">
 
-    <title>Register - SQ</title>
+    <title>Register - Quiz Manager</title>
   </head>
   <body class="text-center">
     <form class="form-register" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
       <img class="mb-4" src="SQicon.ico" alt="" width="72" height="72">
       <h1 class="h3 mb-3 font-weight-normal">Sign up</h1>
+      <span class="help-block"><?php echo $error; ?></span>
         <div class="<?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
           <label for="inputUsername" class="sr-only">Username</label>
           <input type="text" id="inputUsername" name="username" class="form-control" placeholder="Username" value="<?php echo $username; ?>" required autofocus>

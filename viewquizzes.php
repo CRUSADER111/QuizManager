@@ -2,6 +2,9 @@
 // Include config file
 require_once 'config.php';
 
+// Initialize the session
+session_start();
+
 $quizName = htmlspecialchars($_GET["quiz"]);
 //$q_array = array();
 

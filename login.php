@@ -3,8 +3,9 @@
 require_once 'config.php';
  
 // Define variables and initialize with empty values
-$username = $password = $userlevel = "";
+$username = $password = $permissionlevel = "";
 $username_err = $password_err = "";
+$login_err = "";
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -26,7 +27,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate credentials
     if(empty($username_err) && empty($password_err)){
         // Prepare a select statement
-        $sql = "SELECT username, password, userlevel FROM users WHERE username = ?";
+        $sql = "SELECT username, password, permissionlevel FROM users WHERE username = ?";
         
         if($stmt = $mysqli->prepare($sql)){
             // Bind variables to the prepared statement as parameters
@@ -43,20 +44,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 // Check if username exists, if yes then verify password
                 if($stmt->num_rows == 1){                    
                     // Bind result variables
-                    $stmt->bind_result($username, $hashed_password, $userlevel);
+                    $stmt->bind_result($username, $hashed_password, $permissionlevel);
                     if($stmt->fetch()){
                         if(password_verify($password, $hashed_password)){
                             /* Password is correct, so start a new session and
                             save the username to the session */
                             session_start();
                             $_SESSION['username'] = $username;
-                            $_SESSION['userlevel'] = $userlevel;     
+                            $_SESSION['permissionlevel'] = $permissionlevel;     
                             header("location: home.php");
                         } else{
                             // Display an error message if password is not valid
                             //$password_err = 'The password you entered was not valid.';
-                            $password_err = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                                <strong>Error</strong> The password you entered was not valid.
+                            $login_err = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                                <strong>Error</strong> The password and or username you entered was not valid.
                                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                                   <span aria-hidden="true">&times;</span>
                                                 </button>
@@ -66,8 +67,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 } else{
                     // Display an error message if username doesn't exist
                     //$username_err = 'No account found with that username.';
-                    $username_err = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>Error</strong> No account found with that username.
+                    $login_err = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <strong>Error</strong> The password and or username you entered was not valid.
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                           <span aria-hidden="true">&times;</span>
                                         </button>
@@ -115,12 +116,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
       <label for="inputPassword" class="sr-only">Password</label>
       <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required>
       <span class="help-block"><?php echo $password_err; ?></span>
-      <div class="checkbox mb-3">
+      <!-- <div class="checkbox mb-3">
         <label>
           <input type="checkbox" value="remember-me"> Remember me
         </label>
-      </div>
+      </div> -->
       <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+      <span class="help-block"><?php echo $login_err; ?></span>
       <p>Don't have an account? <a href="register.php">Sign up now</a>.</p>
       <p class="mt-5 mb-3 text-muted">&copy; 2017-2018</p>
     </form>

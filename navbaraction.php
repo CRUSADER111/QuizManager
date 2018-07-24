@@ -2,6 +2,9 @@
 // Include config file
 require_once 'config.php';
 
+// Initialize the session
+session_start();
+
 $page = $_SESSION['page'] = htmlspecialchars($_GET["page"]);
     
 if ($page == '#viewQuizzes'){
