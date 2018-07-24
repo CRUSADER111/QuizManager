@@ -7,40 +7,13 @@ $username = $password = $confirm_password = "";
 $username_err = $password_err = $confirm_password_err = $error = "";
 
 // Function to create the dynamic error message
-function errorMessage($input, $message) {
-    if ($input == 'username') {
-        global $username_err;
-        $username_err = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+function errorMessage(&$input, $message) {
+    $input = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
                             <strong>Error:</strong> ' . $message . '
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                               <span aria-hidden="true">&times;</span>
                             </button>
                          </div>';
-    } elseif ($input == 'password') {
-        global $password_err;
-        $password_err = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                            <strong>Error:</strong> ' . $message . '
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                              <span aria-hidden="true">&times;</span>
-                            </button>
-                         </div>';
-    } elseif ($input == 'confirm') {
-        global $confirm_password_err;
-        $confirm_password_err = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <strong>Error:</strong> ' . $message . '
-                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                      <span aria-hidden="true">&times;</span>
-                                    </button>
-                                 </div>';
-    } else {
-        global $error;
-        $error = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <strong>Error:</strong> ' . $message . '
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                 </div>';
-    }
 }
  
 // Processing form data when form is submitted
@@ -49,7 +22,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate username
     if(empty(trim($_POST["username"]))){
         //$username_err = "Please enter a username.";
-        errorMessage('username', 'Please enter a username.');
+        errorMessage($username_err, 'Please enter a username.');
     } else{
         // Prepare a select statement
         $sql = "SELECT id FROM users WHERE username = ?";
@@ -68,14 +41,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 
                 if($stmt->num_rows == 1){
                     //$username_err = "This username is already taken.";
-                    errorMessage('username', 'This username is already taken.');
+                    errorMessage($username_err, 'This username is already taken.');
                 } else{
 
                     $username = trim($_POST["username"]);
                 }
             } else{ 
                 // echo "Oops! Something went wrong. Please try again later.";
-                errorMessage('error', 'Oops! Something went wrong. Please try again later1.');
+                errorMessage($error, 'Oops! Something went wrong. Please try again later1.');
 
             }
 
@@ -83,7 +56,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $stmt->close();
         } else {
             // echo "Oops! Something went wrong. Please try again later.";
-            errorMessage('error', 'Oops! Something went wrong. Please try again later2.');
+            errorMessage($error, 'Oops! Something went wrong. Please try again later2.');
         }
          
         
@@ -91,10 +64,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
     // Validate password
     if(empty(trim($_POST['password']))){
-        $password_err = "Please enter a password.";     
+        // $password_err = "Please enter a password.";
+        errorMessage($password_err, "Please enter a password.");     
     } elseif(strlen(trim($_POST['password'])) < 6){
         //$password_err = "Password must have atleast 6 characters.";
-        errorMessage("password", "This username is already taken.");
+        errorMessage($password_err, "Password must have atleast 6 characters.");
     } else{
         $password = trim($_POST['password']);
     }
@@ -102,12 +76,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate confirm password
     if(empty(trim($_POST["confirm_password"]))){
         //$confirm_password_err = 'Please confirm password.';
-        errorMessage("confirm", "Please confirm password.");     
+        errorMessage($confirm_password_err, "Please confirm password.");     
     } else{
         $confirm_password = trim($_POST['confirm_password']);
         if($password != $confirm_password){
             //$confirm_password_err = 'Password did not match.';
-            errorMessage("confirm", "Password did not match."); 
+            errorMessage($confirm_password_err, "Password did not match."); 
         }
     }
     
@@ -131,7 +105,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 header("location: login.php");
             } else{
                 // echo "Something went wrong. Please try again later.";
-                errorMessage('error', 'Oops! Something went wrong. Please try again later3.');
+                errorMessage($error, 'Oops! Something went wrong. Please try again later3.');
             }
         }
          
@@ -158,7 +132,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <link href="css/register.css" rel="stylesheet">
 
     <!-- Favicon -->
-    <link rel="icon" href="SQicon.ico">
+    <link rel="icon" href="QMicon.ico">
 
     <title>Register - Quiz Manager</title>
   </head>

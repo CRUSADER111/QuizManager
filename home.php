@@ -45,7 +45,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     </style> -->
 
     <!-- Favicon -->
-    <link rel="icon" href="SQicon.ico">
+    <link rel="icon" href="QMicon.ico">
 
     <title>Home - SQ</title>
   </head>

@@ -6,20 +6,32 @@ require_once 'config.php';
 $username = $password = $permissionlevel = "";
 $username_err = $password_err = "";
 $login_err = "";
+
+// Function to create the dynamic error message
+function errorMessage(&$input, $message) {
+    $input = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            <strong>Error:</strong> ' . $message . '
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                         </div>';
+}
  
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
  
     // Check if username is empty
     if(empty(trim($_POST["username"]))){
-        $username_err = 'Please enter username.';
+        // $username_err = 'Please enter username.';
+        errorMessage($username_err, 'Please enter a username.');
     } else{
         $username = trim($_POST["username"]);
     }
     
     // Check if password is empty
     if(empty(trim($_POST['password']))){
-        $password_err = 'Please enter your password.';
+        // $password_err = 'Please enter your password.';
+        errorMessage($password_err, 'Please enter your password.');
     } else{
         $password = trim($_POST['password']);
     }
@@ -56,26 +68,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                         } else{
                             // Display an error message if password is not valid
                             //$password_err = 'The password you entered was not valid.';
-                            $login_err = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                                <strong>Error</strong> The password and or username you entered was not valid.
-                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                  <span aria-hidden="true">&times;</span>
-                                                </button>
-                                             </div>';
+                            errorMessage($login_err, 'The password and or username entered was not valid.');
                         }
                     }
                 } else{
                     // Display an error message if username doesn't exist
                     //$username_err = 'No account found with that username.';
-                    $login_err = '<div class="alert alert-danger alert-dismissible fade show" role="alert">
-                                        <strong>Error</strong> The password and or username you entered was not valid.
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                          <span aria-hidden="true">&times;</span>
-                                        </button>
-                                     </div>';
+                    errorMessage($login_err, 'The password and or username entered was not valid.');
                 }
             } else{
-                echo "Oops! Something went wrong. Please try again later.";
+                // echo "Oops! Something went wrong. Please try again later.";
+                errorMessage($login_err, 'Oops! Something went wrong. Please try again later.');
             }
         }
         
@@ -102,7 +105,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <link href="css/login.css" rel="stylesheet">
 
     <!-- Favicon -->
-    <link rel="icon" href="SQicon.ico">
+    <link rel="icon" href="QMicon.ico">
 
     <title>Login - SQ</title>
   </head>
