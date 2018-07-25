@@ -9,14 +9,14 @@ $action = $page =  '';
 session_start();
 
 
-if($_SERVER["REQUEST_METHOD"] == "POST"){
+// if($_SERVER["REQUEST_METHOD"] == "POST"){
     
-    if (!empty(trim($_POST['action']))) {
-        $action = $_POST['action'];
-        $_SESSION['page'] = $action;
-        include 'viewquizzes.php';
-    }
-}
+//     if (!empty(trim($_POST['action']))) {
+//         $action = $_POST['action'];
+//         $_SESSION['page'] = $action;
+//         include 'viewquizzes.php';
+//     }
+// }
 
 // If session variable is not set or empty it will redirect to login page
 // if(!isset($_SESSION['username']) || empty($_SESSION['username'])){
@@ -34,15 +34,13 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css" integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
+    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/home.css">
+    
     <!-- Font Awesome JS -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-
-    <!-- <style type="text/css">
-        body{ font: 14px sans-serif; text-align: center; }
-    </style> -->
 
     <!-- Favicon -->
     <link rel="icon" href="QMicon.ico">
@@ -121,17 +119,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
         <!-- Page Content  -->
         <div id="content">
-
+            <!-- Horizontal Navbar -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-
-                    <!-- <button type="button" id="sidebarCollapse" class="btn btn-default">
-                        <i class="fas fa-align-left"></i>
-                        <span>Toggle Sidebar</span>
-                    </button>
-                    <button class="btn btn-dark d-inline-block d-lg-none ml-auto" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                        <i class="fas fa-align-justify"></i>
-                    </button> -->
                     <button type="button" id="sidebarCollapse" class="navbar-btn">
                         <span></span>
                         <span></span>
@@ -180,15 +170,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js" integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em" crossorigin="anonymous"></script>
 
     <!-- Custom Script -->
-        <script type="text/javascript">
-        $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
-                $(this).toggleClass('active');
-            });
-        });
-        </script>
-
-        <script src="js/queries.js"></script>
+    <script src="js/queries.js"></script>
   </body>
 </html>
