@@ -6,14 +6,20 @@ require_once 'config.php';
 session_start();
 
 $quizName = htmlspecialchars($_GET["quiz"]);
-//$q_array = array();
+global $i;
+global $questionID;
+$i = 0;
 
 if ($_SERVER["REQUEST_METHOD"]){
     //$quiz = htmlspecialchars($_SESSION['quiz']);
-    $sql = "SELECT questionID, question, answerID FROM questions WHERE quiz = ?";
+    $sql = "SELECT DISTINCT questions.questionID, questions.question, answers.answerID, answers.answer
+            FROM questions
+            INNER JOIN answers
+            ON questions.questionID = answers.questionID
+            WHERE questions.quiz = ? AND answers.quiz = ?";
     if($stmt = $mysqli->prepare($sql)){
         // Bind variables to the prepared statement as parameters
-        $stmt->bind_param("s", $param_quiz);
+        $stmt->bind_param("ss", $param_quiz, $param_quiz);
         // Set parameters
         $param_quiz = $quizName;
 
@@ -22,46 +28,53 @@ if ($_SERVER["REQUEST_METHOD"]){
             // Store result
             $stmt->store_result();
 
-            $stmt->bind_result($q_array['$questionID'], $q_array['$question'], $q_array['$answerID']);
+            $stmt->bind_result($q_array['$questionID'], $q_array['$question'], $q_array['$answerID'], $q_array['$answer']);
             $j=$stmt->num_rows;
                 for ($i=0;$i<$j;$i++){
                     $stmt->data_seek($i);
                     $stmt->fetch();
                     foreach ($q_array as $key=>$value){
+
                         $result[$i][$key]=$value;
                     }
                 }
-                // print_r($result);
-                echo '<div class="table-responsive">';
+            //
+            $stmt->free_result();
+                echo '<div class="table-responsive table-wrapper-scroll-y">';
                 echo '<table class="table">';
-                echo '<thead>';
+                
                 foreach ($result as $key => $value) {
-                	echo "<tr>";
-                        echo '<th>'.$value['$questionID'].'</th>';
-                        echo '<th>'.$value['$question'].'</th>';
-                    echo "</tr>";
+                    
+                    $questionID = $value['$questionID'];
+                    if ($questionID == $value['$questionID'] && $i != $questionID) {
+                        echo '<thead class="thead-light">';
+                        echo "<tr>";
+                            echo '<th id="'.$value['$questionID'].'">'.$value['$questionID'].'</th>';
+                            echo '<th>'.$value['$question'].'</th>';
+                        echo "</tr>";
+                        echo "</thead>";
+                        echo "<tbody>";
+                        $i = $value['$questionID'];
+                        foreach ($result as $key => $value) {
+                            if ($questionID == $value['$questionID'] && ($_SESSION['permissionlevel'] == 'Edit' OR $_SESSION['permissionlevel'] == 'View')) {
+                                echo "<tr>";
+                                    echo '<td>'.$value['$answerID'].'</td>';
+                                    echo '<td>'.$value['$answer'].'</td>';
+                                echo "</tr>";
+                            }
+                        }
+                        echo "</tbody>";
+                    }
+                    
                 }
-                echo "</thead>";
+                
                 echo "</table>";
                 echo '</div>';
-            // echo '<div class="table-responsive">';
-            // while($stmt->fetch()){
-            //     echo '<table class="table">';
-            //     echo '<thead>';
-            //         echo "<tr>";
-            //             echo "<th>$questionID</th>";
-            //             echo "<th>$question</th>";
-            //         echo "</tr>";
-            //     //for($i=0; $i<2; $i++){    
-            //     //}
-            //     echo "</thead>";
-            //     echo "</table>";
-            // }
-            // echo '</div>';
+        $stmt->close();
+        $mysqli->close();
         } else{
             echo "Oops! Something went wrong. Please try again later.";
         }
     }   
 }
-
 ?>

@@ -40,10 +40,10 @@ REPLACE INTO `answers` (`id`, `answerID`, `quiz`, `answer`, `questionID`, `creat
 	(6, 'B', 'RPA', 'Real Time Process Optimization', 2, NULL, NULL),
 	(7, 'C', 'RPA', 'Real Time Practical Occurrence', 2, NULL, NULL),
 	(8, 'D', 'RPA', 'Real Time Protocol Occurrence', 2, NULL, NULL),
-	(9, 'A', 'Math', '10', 3, NULL, NULL),
-	(10, 'B', 'Math', '20', 3, NULL, NULL),
-	(11, 'C', 'Math', '30', 3, NULL, NULL),
-	(12, 'D', 'Math', '25', 3, NULL, NULL);
+	(9, 'A', 'Math', '10', 1, NULL, NULL),
+	(10, 'B', 'Math', '20', 1, NULL, NULL),
+	(11, 'C', 'Math', '30', 1, NULL, NULL),
+	(12, 'D', 'Math', '25', 1, NULL, NULL);
 /*!40000 ALTER TABLE `answers` ENABLE KEYS */;
 
 -- Dumping structure for table quizdb.questions
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_520_ci;
 
--- Dumping data for table quizdb.users: ~1 rows (approximately)
+-- Dumping data for table quizdb.users: ~3 rows (approximately)
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 REPLACE INTO `users` (`id`, `username`, `password`, `permissionlevel`, `created_at`) VALUES
 	(1, 'Test', '$2y$10$bYvEo2siVP4JdkbXZjI9t.moRMZ0HQPdICIiBNXmYKw/FxWYwAxRO', 'Restricted', '2018-07-23 16:00:49'),

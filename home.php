@@ -75,15 +75,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 </li>
                 <li>
                     <ul class="collapse list-unstyled" id="pageSubmenu">
-                        <!-- <form method="post"> -->
-                            <li>
-                                <!-- <input type="submit" name="action" value="View Quizzes">View Quizzes> -->
-                                <a href="#viewQuizzes" class="sidebarItem">
-                                    <i></i>
-                                    View Quizzes
-                                </a>
-                            </li>
-                        <!-- </form> -->
+                        <li>
+                            <a href="#viewQuizzes" class="sidebarItem">
+                                <i></i>
+                                View Quizzes
+                            </a>
+                        </li>
+                        <?php if($_SESSION['permissionlevel'] == "Edit"): ?>
+                        <li>
+                            <a href="#editQuizzes" class="sidebarItem">
+                                <i></i>
+                                Edit Quizzes
+                            </a>
+                        </li>
+                        <?php endif; ?> 
                     </ul>
                 </li>
                 <?php endif; ?>                
