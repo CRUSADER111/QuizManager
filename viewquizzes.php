@@ -5,7 +5,7 @@ require_once 'config.php';
 // Initialize the session
 session_start();
 
-$quizName = htmlspecialchars($_GET["quiz"]);
+$quizName = $_SESSION['quiz'] = htmlspecialchars($_GET["quiz"]);
 global $i;
 global $questionID;
 $i = 0;

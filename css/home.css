@@ -4,6 +4,10 @@ body {
     background: #fafafa;
 }
 
+div.dropdown {
+    display: inline-block;
+}
+
 p {
     font-family: 'Poppins', sans-serif;
     font-size: 1.1em;

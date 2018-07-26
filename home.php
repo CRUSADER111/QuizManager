@@ -119,6 +119,30 @@ session_start();
 
         <!-- Page Content  -->
         <div id="content">
+            <!-- Modal -->
+            <div class="modal fade" id="confirmAction" tabindex="-1" role="dialog" aria-labelledby="Confrim Action" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Are you sure?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <?php if(isset($_SESSION['quiz']) && !empty($_SESSION['quiz'])): ?>
+                    Delete quiz: <?php echo $_SESSION['quiz']; ?>
+                    <?php else: ?>
+                    No quiz selected
+                    <?php endif; ?>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger">Confirm</button>
+                  </div>
+                </div>
+              </div>
+            </div>
             <!-- Horizontal Navbar -->
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
@@ -158,7 +182,9 @@ session_start();
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
             </div>
-            <div id="quiztable"></div>
+            <div id="quiztable">
+                <h2>Please select a quiz above</h2>
+            </div>
         </div>
     </div>
     
