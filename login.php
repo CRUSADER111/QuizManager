@@ -107,7 +107,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <!-- Favicon -->
     <link rel="icon" href="QMicon.ico">
 
-    <title>Login - SQ</title>
+    <title>Login - Quiz Manager</title>
   </head>
   <body class="text-center">
     <form class="form-login" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">

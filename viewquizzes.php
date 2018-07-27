@@ -2,15 +2,17 @@
 // Include config file
 require_once 'config.php';
 
-// Initialize the session
+// Initialise the session
 session_start();
 
-$quizName = $_SESSION['quiz'] = htmlspecialchars($_GET["quiz"]);
+//Initialise Global variables
 global $i;
 global $questionID;
 $i = 0;
 
 if ($_SERVER["REQUEST_METHOD"]){
+    // Get AJAX data
+    $quizName = $_SESSION['quiz'] = htmlspecialchars($_GET["quiz"]);
     //$quiz = htmlspecialchars($_SESSION['quiz']);
     $sql = "SELECT DISTINCT questions.questionID, questions.question, answers.answerID, answers.answer
             FROM questions
@@ -38,7 +40,6 @@ if ($_SERVER["REQUEST_METHOD"]){
                         $result[$i][$key]=$value;
                     }
                 }
-            //
             $stmt->free_result();
                 echo '<div class="table-responsive table-wrapper-scroll-y">';
                 echo '<table class="table">';

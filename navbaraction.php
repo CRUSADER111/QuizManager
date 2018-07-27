@@ -14,8 +14,9 @@ if ($page == '#viewQuizzes' OR $page == '#editQuizzes'){
         if($stmt->execute()){
             // Store result
             $stmt->store_result();
-// <i class="fas fa-caret-down"></i>
+            // Bind result to variable
             $stmt->bind_result($quiz);
+            echo '<h3>Please select a quiz</h3>';
             echo '<div class="dropdown">';
             echo '<button class="btn btn-primary dropdown-toggle" type="button" id="quizzesMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Quizzes
                   </button>
@@ -25,14 +26,14 @@ if ($page == '#viewQuizzes' OR $page == '#editQuizzes'){
             }
             echo '</div>';
             echo '</div>';
-            if ($_SESSION['permissionlevel'] == "Edit") {
+            if ($_SESSION['permissionlevel'] == "Edit" && $page == '#editQuizzes') {
                 echo '<button class="btn btn-danger" type="button" id="deleteQuiz" data-toggle="modal" data-target="#confirmAction">Delete Quiz
                         <i class="fas fa-trash-alt"></i>
                         </button>';
             }
             $stmt->free_result();
-            $stmt->close();
-            $mysqli->close();
+        $stmt->close();
+    $mysqli->close();
         } else{
             echo "Oops! Something went wrong. Please try again later.";
         }

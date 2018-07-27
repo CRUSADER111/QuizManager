@@ -45,24 +45,39 @@ $(document).ready(function () {
     });
 });
 
+// $(document).ready(function(){
+//     $("div#navbaraction").on("click", "button#deleteQuiz", function(){
+//         // Get value from input element on the page
+//         // var numValue = "5";
+//         var quizName = $(this).attr("id");
+//         var url      = window.location.href;
+//         // $.post("test.php",{"page": pageID});
+//         // Send the input data to the server using get
+//         if (url != "http://localhost:8080/quizmanager/home.php#editQuizzes") {
+//             $.get("viewquizzes.php", {quiz: quizName} , function(data){
+//                 // Display the returned data in browser
+//                 $("#quiztable").html(data);
+//             });
+//         }else {
+//             $.get("editquizzes.php", {quiz: quizName} , function(data){
+//                 // Display the returned data in browser
+//                 $("#quiztable").html(data);
+//             });
+//         }
+//     });
+// });
+
 $(document).ready(function(){
-    $("div#navbaraction").on("click", "button#deleteQuiz", function(){
+    $("div#quiztable").on("click", "button#update", function(){
         // Get value from input element on the page
         // var numValue = "5";
         var quizName = $(this).attr("id");
         var url      = window.location.href;
         // $.post("test.php",{"page": pageID});
         // Send the input data to the server using get
-        if (url != "http://localhost:8080/quizmanager/home.php#editQuizzes") {
-            $.get("viewquizzes.php", {quiz: quizName} , function(data){
-                // Display the returned data in browser
-                $("#quiztable").html(data);
-            });
-        }else {
-            $.get("editquizzes.php", {quiz: quizName} , function(data){
-                // Display the returned data in browser
-                $("#quiztable").html(data);
-            });
-        }
+        $.post("editquizzes.php", $("#editAnswersA").serialize(), function(data){
+            // Display the returned data in browser
+            $("#quiztable").html(data);
+        });
     });
 });
